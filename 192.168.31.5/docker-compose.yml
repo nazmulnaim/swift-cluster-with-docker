@@ -1,0 +1,21 @@
+# docker-compose file for swift clustering
+version: '3'
+services:
+  dockerswiftaio:
+    image: dockerswiftaio/docker-swift
+    ports:
+      - "8181:8080"
+      - "6010:6010"
+      - "6011:6011"
+      - "6012:6012"
+    volumes:
+      - ./data-dir:/swift/nodes/1/node/sdb1
+      - ./conf/account-server/1.conf:/etc/swift/account-server/1.conf
+      - ./conf/container-server/1.conf:/etc/swift/container-server/1.conf
+      - ./conf/object-server/1.conf:/etc/swift/object-server/1.conf
+      - ./conf/container-reconciler.conf:/etc/swift/container-reconciler.conf
+      - ./conf/internal-client.conf:/etc/swift/internal-client.conf
+      - ./conf/proxy-server.conf:/etc/swift/proxy-server.conf
+      - ./conf/swift.conf:/etc/swift/swift.conf
+      - ./conf/rsyncd.conf:/etc/rsyncd.conf
+      - ./conf/remakerings:/swift/bin/remakerings

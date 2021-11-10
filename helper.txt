@@ -1,0 +1,47 @@
+# Reset and recreate the container
+docker-compose down && sudo rm -rf data-dir && sudo mkdir data-dir && sudo chmod 777 -R data-dir && docker-compose up -d && docker-compose logs -f
+
+# Recreate the container
+docker-compose up -d && docker-compose logs -f
+
+# Restart the container
+docker-compose restart && docker-compose logs -f
+
+# Exec to the container
+docker-compose exec dockerswiftaio bash
+
+# Get auth-token to Server01
+curl -v -H 'X-Storage-User: admin:admin' -H 'X-Storage-Pass: admin' http://192.168.31.5:8181/auth/v1.0
+
+# Create a container to Server01
+curl -i -X PUT -H "X-Auth-Token: AUTH_tk4d2aa604f39440a985f2ea90421c6ee7" http://192.168.31.5:8181/v1/AUTH_admin/mycontainer
+
+# Upload a file to Server01
+curl -X PUT -T testData.txt -H 'X-Auth-Token: AUTH_tk4d2aa604f39440a985f2ea90421c6ee7' http://192.168.31.5:8181/v1/AUTH_admin/mycontainer/
+
+# List of object to Server01
+curl -H 'X-Auth-Token: AUTH_tk4d2aa604f39440a985f2ea90421c6ee7' http://192.168.31.5:8181/v1/AUTH_admin/mycontainer
+
+# Download a object from Server01
+curl -H 'X-Auth-Token: AUTH_tk4d2aa604f39440a985f2ea90421c6ee7' http://192.168.31.5:8181/v1/AUTH_admin/mycontainer/testData.txt
+
+# Download as a local fIle from Server01
+curl -o local.txt -H 'X-Auth-Token: AUTH_tk4d2aa604f39440a985f2ea90421c6ee7'  http://192.168.31.5:8181/v1/AUTH_admin/mycontainer/testData.txt
+
+# Get auth-token to Server02
+curl -v -H 'X-Storage-User: admin:admin' -H 'X-Storage-Pass: admin' http://192.168.31.6:8181/auth/v1.0
+
+# Create a container to Server02
+curl -i -X PUT -H "X-Auth-Token: AUTH_tkec37f2a55cd142969d3200ea2c7f0b2e" http://192.168.31.6:8181/v1/AUTH_admin/mycontainer
+
+# Upload a file to Server02
+curl -X PUT -T testData.txt -H 'X-Auth-Token: AUTH_tkec37f2a55cd142969d3200ea2c7f0b2e' http://192.168.31.6:8181/v1/AUTH_admin/mycontainer/
+
+# List of object to Server02
+curl -H 'X-Auth-Token: AUTH_tkec37f2a55cd142969d3200ea2c7f0b2e' http://192.168.31.6:8181/v1/AUTH_admin/mycontainer
+
+# Download a object from Server02
+curl -H 'X-Auth-Token: AUTH_tkec37f2a55cd142969d3200ea2c7f0b2e' http://192.168.31.6:8181/v1/AUTH_admin/mycontainer/testData.txt
+
+# Download as a local fIle from Server02
+curl -o local.txt -H 'X-Auth-Token: AUTH_tkec37f2a55cd142969d3200ea2c7f0b2e'  http://192.168.31.6:8181/v1/AUTH_admin/mycontainer/testData.txt
